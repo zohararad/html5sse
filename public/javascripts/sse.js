@@ -50,6 +50,7 @@ var SSE = {
       this.source.close();
       this.source = null;
     }
+    this.dom.form.removeClass('loading');
   },
   /**
    * Adds a tweet to the DOM

@@ -36,12 +36,10 @@ app.get('/', function(req, res){
 });
 
 app.get('/stream',function(req,res){
-  //res.header('Content-Type','text/event-stream');
-  res.writeHead(200, {
-    'Content-Type': 'text/event-stream',
-    'Cache-Control': 'no-cache',
-    'Connection': 'keep-alive'
-  });
+  res.header('Content-Type','text/event-stream');
+  res.header('Cache-Control', 'no-cache');
+  res.header('Connection', 'keep-alive');
+
   var twit = new TwitterNode({
     user: req.query.username, 
     password: req.query.password,
@@ -58,7 +56,7 @@ app.get('/stream',function(req,res){
   }).stream();
 
   req.on('close',function(){
-    twit._clientResponse.socket.end()
+    twit._clientResponse.socket.end();
   })
 });
 
