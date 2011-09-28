@@ -1,0 +1,15 @@
+h1 Twitter Streamer
+h2 Read tweets that contain your choice of keywords
+
+form#track_tweets(action='/stream', method='get')
+  p
+    input#username(type="text", name="username", placeholder="Username")
+    input#password(type="password", name="password", placeholder="Password")
+  p
+    input#track(type='text', name='track', placeholder='Enter keywords (comma separated)')
+    input#send(type='submit', name='send', value='Stream Tweets')
+    a#cancel(title="Cancel stream") Cancel Stream
+    
+div#main
+  h3 Tweets:
+  ul#tweets
