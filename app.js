@@ -2,6 +2,7 @@
 /**
  * Module dependencies.
  */
+require.paths.unshift('./node_modules');
 var TwitterNode = require('twitter-node').TwitterNode;
 var express = require('express');
 
@@ -35,8 +36,12 @@ app.get('/', function(req, res){
 });
 
 app.get('/stream',function(req,res){
-  res.header('Content-Type','text/event-stream');
-
+  //res.header('Content-Type','text/event-stream');
+  res.writeHead(200, {
+    'Content-Type': 'text/event-stream',
+    'Cache-Control': 'no-cache',
+    'Connection': 'keep-alive'
+  });
   var twit = new TwitterNode({
     user: req.query.username, 
     password: req.query.password,
@@ -53,10 +58,9 @@ app.get('/stream',function(req,res){
   }).stream();
 
   req.on('close',function(){
-    console.log('req close');
-    console.log(twit._clientResponse.socket.end());
+    twit._clientResponse.socket.end()
   })
 });
 
-app.listen(3000);
+app.listen(process.env.VMC_APP_PORT || 3000);
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
